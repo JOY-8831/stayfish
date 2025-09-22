@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>最簡單 Vue SPA 範例</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    .nav { margin-bottom: 1em; }
+    .nav button { margin-right: 0.5em; }
+    .page { border: 1px solid #ccc; padding: 1em; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="nav">
+      <button @click="page = 1">頁面 1</button>
+      <button @click="page = 2">頁面 2</button>
+      <button @click="page = 3">頁面 3</button>
+    </div>
+    <div class="page" v-if="page === 1">
+      <h2>頁面 1</h2>
+      <label>姓名：<input v-model="form.name"></label>
+      <br><br>
+      <button @click="page = 2">下一頁</button>
+    </div>
+    <div class="page" v-else-if="page === 2">
+      <h2>頁面 2</h2>
+      <label>Email：<input v-model="form.email"></label>
+      <br><br>
+      <button @click="page = 1">上一頁</button>
+      <button @click="page = 3">下一頁</button>
+    </div>
+    <div class="page" v-else>
+      <h2>頁面 3（結果）</h2>
+      <div>姓名：{{ form.name }}</div>
+      <div>Email：{{ form.email }}</div>
+      <br>
+      <button @click="page = 2">上一頁</button>
+      <button @click="reset">重新填寫</button>
+    </div>
+  </div>
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          page: 1,
+          form: { name: '', email: '' }
+        }
+      },
+      methods: {
+        reset() {
+          this.form.name = '';
+          this.form.email = '';
+          this.page = 1;
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
